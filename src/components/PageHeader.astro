@@ -1,0 +1,35 @@
+---
+/**
+ * En-tête de page interne (bandeau marine) : fil d'Ariane optionnel + H1 + sous-titre.
+ * Donne une cohérence visuelle à toutes les pages (même look que le hero d'accueil).
+ */
+import Breadcrumb from './Breadcrumb.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+interface Props {
+  title: string;
+  subtitle?: string;
+  breadcrumb?: Crumb[];
+}
+const { title, subtitle, breadcrumb } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-marine-700 text-white">
+  <div
+    class="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-orange-500/10 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="container-site relative py-12 sm:py-16">
+    {breadcrumb && <Breadcrumb items={breadcrumb} />}
+    <h1 class="!text-white text-3xl font-extrabold leading-tight sm:text-4xl">{title}</h1>
+    {
+      subtitle && (
+        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-marine-100">{subtitle}</p>
+      )
+    }
+  </div>
+</section>

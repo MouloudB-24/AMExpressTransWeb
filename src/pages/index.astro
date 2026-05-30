@@ -1,0 +1,27 @@
+---
+/**
+ * PAGE D'ACCUEIL — page modèle de référence.
+ * Elle se contente d'empiler les sections dans l'ordre du wireframe validé.
+ * Chaque section vit dans son propre composant (dossier src/components).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServicesPreview from '../components/ServicesPreview.astro';
+import WhyUs from '../components/WhyUs.astro';
+import ZonePreview from '../components/ZonePreview.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+---
+
+<BaseLayout
+  title="Transport léger de marchandises à Antibes & Côte d'Azur"
+  description="Besoin de transporter des marchandises sur la Côte d'Azur ? AM Express Transport, votre transporteur léger à Antibes. Devis gratuit sous 24 h."
+>
+  <Hero />
+  <ServicesPreview />
+  <WhyUs />
+  <ZonePreview />
+  <Testimonials />
+  <!-- ↑ section témoignages présente mais masquée pour l'instant -->
+  <FinalCTA />
+</BaseLayout>

@@ -1,0 +1,105 @@
+---
+/**
+ * En-tête du site : logo, navigation, bouton « Devis ».
+ * Sur mobile, la navigation est repliée dans un menu hamburger.
+ */
+import { site, navLinks } from '../data/site';
+import Icon from './Icon.astro';
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="sticky top-0 z-40 border-b border-marine-100 bg-white/95 backdrop-blur">
+  <div class="container-site flex h-16 items-center justify-between gap-4">
+    <!-- Logo texte -->
+    <a
+      href="/"
+      class="flex items-center gap-2 text-lg font-extrabold tracking-tight text-marine-700"
+      aria-label={`${site.name} — accueil`}
+    >
+      <span class="grid h-9 w-9 place-items-center rounded-md bg-marine-700 text-white">
+        <Icon name="truck" class="h-5 w-5" />
+      </span>
+      <span>AM <span class="text-orange-700">Express</span> Transport</span>
+    </a>
+
+    <!-- Navigation bureau (cachée sur mobile) -->
+    <nav class="hidden items-center gap-6 md:flex" aria-label="Navigation principale">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+            class:list={[
+              'text-sm font-medium transition hover:text-orange-600',
+              isActive(link.href) ? 'text-orange-700' : 'text-marine-700',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a href="/devis" class="btn-primary !px-4 !py-2 !text-sm">Devis gratuit</a>
+    </nav>
+
+    <!-- Bouton hamburger (mobile uniquement) -->
+    <button
+      id="menu-toggle"
+      type="button"
+      class="grid h-10 w-10 place-items-center rounded-md text-marine-700 md:hidden"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <Icon name="menu" class="h-6 w-6" data-icon="open" />
+      <Icon name="close" class="hidden h-6 w-6" data-icon="close" />
+    </button>
+  </div>
+
+  <!-- Menu mobile déroulant -->
+  <nav
+    id="mobile-menu"
+    class="hidden border-t border-marine-100 bg-white md:hidden"
+    aria-label="Navigation mobile"
+  >
+    <ul class="container-site flex flex-col py-2">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class:list={[
+                'block rounded-md px-2 py-3 text-base font-medium hover:bg-marine-50',
+                isActive(link.href) ? 'text-orange-700' : 'text-marine-700',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="px-2 py-3">
+        <a href="/devis" class="btn-primary w-full">Demander un devis gratuit</a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Ouverture/fermeture du menu mobile (le seul JS de la page).
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = toggle?.querySelector('[data-icon="open"]');
+  const iconClose = toggle?.querySelector('[data-icon="close"]');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('hidden') === false;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    iconOpen?.classList.toggle('hidden', isOpen);
+    iconClose?.classList.toggle('hidden', !isOpen);
+  });
+</script>

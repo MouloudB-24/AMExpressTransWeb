@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Plan du site (généré automatiquement au build par @astrojs/sitemap)
+Sitemap: https://amexpress-transport.fr/sitemap-index.xml

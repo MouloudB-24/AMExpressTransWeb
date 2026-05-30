@@ -1,0 +1,66 @@
+---
+/**
+ * Section HERO — premier bloc visible de la page d'accueil.
+ * Contient l'unique <h1> de la page, le sous-titre, les 2 CTA et la réassurance.
+ *
+ * 👉 Pour modifier les textes : voir les zones marquées « TEXTE » ci-dessous.
+ */
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section class="relative overflow-hidden bg-marine-700 text-white">
+  <!-- Fond dégradé (léger, sans image = performance optimale).
+       Pour ajouter une vraie photo plus tard, remplacez ce dégradé par une
+       image WebP en arrière-plan avec dimensions explicites. -->
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-marine-700 via-marine-700 to-marine-900"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-orange-500/10 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-site relative py-16 sm:py-20 lg:py-28">
+    <div class="max-w-3xl">
+      <!-- TEXTE : titre principal (un seul H1 sur la page) -->
+      <h1 class="!text-white text-4xl font-extrabold leading-tight sm:text-5xl">
+        Votre transporteur de marchandises sur la Côte d'Azur
+      </h1>
+
+      <!-- TEXTE : sous-titre -->
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-marine-100">
+        Transport léger, livraisons et déménagements à Antibes et dans tout le
+        06. Rapide, soigné, à l'écoute.
+      </p>
+
+      <!-- CTA principal + secondaire -->
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="/devis" class="btn-primary">
+          Demander un devis gratuit
+          <Icon name="arrow" class="h-5 w-5" />
+        </a>
+        <a href={site.phoneLink} class="btn-secondary">
+          <Icon name="phone" class="h-5 w-5" />
+          Appeler le {site.phoneDisplay}
+        </a>
+      </div>
+
+      <!-- TEXTE : ligne de réassurance (à répéter près des CTA sur tout le site) -->
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-marine-100">
+        <li class="flex items-center gap-2">
+          <Icon name="check" class="h-4 w-4 text-orange-400" /> Réponse sous 24 h
+        </li>
+        <li class="flex items-center gap-2">
+          <Icon name="check" class="h-4 w-4 text-orange-400" /> Devis gratuit
+        </li>
+        <li class="flex items-center gap-2">
+          <Icon name="check" class="h-4 w-4 text-orange-400" /> Sans engagement
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

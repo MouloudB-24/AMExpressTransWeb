@@ -1,0 +1,75 @@
+---
+/**
+ * PAGE CONTACT (/contact) — coordonnées cliquables + formulaire court.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  fullTitle="Contact — AM Express Transport, Antibes (06) | Tél. 07 69 72 54 64"
+  description="Contactez AM Express Transport à Antibes. Téléphone, WhatsApp, email et formulaire. Réponse rapide pour vos besoins de transport sur la Côte d'Azur."
+>
+  <PageHeader
+    title="Contactez-nous"
+    subtitle="Une question, un besoin de transport ? Nous vous répondons rapidement, 6j/7."
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'Contact' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="grid gap-10 lg:grid-cols-[1fr_1.3fr]">
+      <!-- Coordonnées -->
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold">Nos coordonnées</h2>
+
+        <a href={site.phoneLink} class="flex items-center gap-4 rounded-xl border border-marine-100 p-4 transition hover:border-orange-200 hover:bg-marine-50">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-marine-50 text-marine-700">
+            <Icon name="phone" class="h-5 w-5" />
+          </span>
+          <span>
+            <span class="block text-sm text-marine-500">Téléphone</span>
+            <span class="font-semibold text-marine-700">{site.phoneDisplay}</span>
+          </span>
+        </a>
+
+        <a href={site.whatsapp} target="_blank" rel="noopener" class="flex items-center gap-4 rounded-xl border border-marine-100 p-4 transition hover:border-orange-200 hover:bg-marine-50">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-marine-50 text-marine-700">
+            <Icon name="whatsapp" class="h-5 w-5" />
+          </span>
+          <span>
+            <span class="block text-sm text-marine-500">WhatsApp</span>
+            <span class="font-semibold text-marine-700">{site.phoneDisplay}</span>
+          </span>
+        </a>
+
+        <a href={`mailto:${site.email}`} class="flex items-center gap-4 rounded-xl border border-marine-100 p-4 transition hover:border-orange-200 hover:bg-marine-50">
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-marine-50 text-marine-700">
+            <Icon name="box" class="h-5 w-5" />
+          </span>
+          <span class="min-w-0">
+            <span class="block text-sm text-marine-500">E-mail</span>
+            <span class="font-semibold text-marine-700 break-all">{site.email}</span>
+          </span>
+        </a>
+
+        <!-- Adresse et horaires : à compléter quand le client les fournira -->
+        <div class="rounded-xl border border-dashed border-marine-200 p-4 text-sm text-marine-500">
+          <p><span class="font-semibold text-marine-700">Adresse :</span> [ADRESSE DU SIÈGE — à compléter]</p>
+          <p class="mt-1"><span class="font-semibold text-marine-700">Horaires :</span> [HORAIRES — à compléter]</p>
+        </div>
+      </div>
+
+      <!-- Formulaire court -->
+      <div>
+        <h2 class="text-2xl font-bold">Envoyez-nous un message</h2>
+        <p class="mt-2 text-marine-500">Nous revenons vers vous sous 24 h.</p>
+        <div class="mt-6">
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

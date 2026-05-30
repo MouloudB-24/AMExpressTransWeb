@@ -1,0 +1,37 @@
+---
+/**
+ * Bloc « Pourquoi nous choisir » — 4 arguments clés.
+ * Les arguments se modifient dans src/data/site.ts (tableau "reasons").
+ */
+import { reasons } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section class="bg-marine-50 py-16 sm:py-20" aria-labelledby="titre-pourquoi">
+  <div class="container-site">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 id="titre-pourquoi" class="text-3xl font-bold sm:text-4xl">
+        Pourquoi nous choisir ?
+      </h2>
+      <p class="mt-4 text-lg text-marine-500">
+        Un service de transport fiable, réactif et sans mauvaise surprise.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        reasons.map((reason) => (
+          <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
+            <span class="grid h-12 w-12 place-items-center rounded-full bg-orange-500 text-white">
+              <Icon name={reason.icon} class="h-6 w-6" />
+            </span>
+            <h3 class="mt-4 text-lg font-semibold">{reason.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-marine-500">
+              {reason.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

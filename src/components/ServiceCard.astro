@@ -1,0 +1,34 @@
+---
+/**
+ * Carte d'un service — utilisée sur l'accueil et sur la page /services.
+ * Reçoit un objet "service" issu de src/data/site.ts.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  service: {
+    title: string;
+    description: string;
+    href: string;
+    icon: string;
+  };
+}
+const { service } = Astro.props;
+---
+
+<a
+  href={service.href}
+  class="group flex flex-col rounded-xl border border-marine-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-orange-200 hover:shadow-md"
+>
+  <span class="grid h-12 w-12 place-items-center rounded-lg bg-marine-50 text-marine-700 transition group-hover:bg-orange-500 group-hover:text-white">
+    <Icon name={service.icon} class="h-6 w-6" />
+  </span>
+  <h3 class="mt-5 text-lg font-semibold">{service.title}</h3>
+  <p class="mt-2 flex-1 text-sm leading-relaxed text-marine-500">
+    {service.description}
+  </p>
+  <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-orange-700">
+    En savoir plus
+    <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" />
+  </span>
+</a>

@@ -1,0 +1,39 @@
+---
+/**
+ * CONDITIONS GÉNÉRALES DE VENTE (CGV) — document PROVISOIRE.
+ * À rédiger précisément avec un professionnel au Sprint 3 (responsabilité,
+ * assurance marchandises, litiges…).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+---
+
+<BaseLayout
+  title="Conditions générales de vente"
+  description="Conditions générales de vente des prestations de transport d'AM Express Transport."
+>
+  <PageHeader
+    title="Conditions générales de vente"
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'CGV' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl space-y-6 text-marine-600">
+      <p class="rounded-lg border border-orange-200 bg-orange-50 p-4 text-sm text-marine-700">
+        ⚠️ <strong>Document provisoire à rédiger précisément.</strong> Les CGV
+        définitives seront établies au Sprint 3.
+      </p>
+
+      <p>Les présentes conditions encadreront notamment :</p>
+      <ul class="list-disc space-y-2 pl-6">
+        <li>les conditions des prestations de transport léger de marchandises ;</li>
+        <li>les modalités d'établissement et de validation des devis ;</li>
+        <li>la responsabilité du transporteur ;</li>
+        <li>l'assurance des marchandises transportées ;</li>
+        <li>le règlement des litiges.</li>
+      </ul>
+
+      <p class="text-sm text-marine-500">[Contenu détaillé à compléter.]</p>
+    </div>
+  </section>
+</BaseLayout>

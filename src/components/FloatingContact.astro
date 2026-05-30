@@ -1,0 +1,32 @@
+---
+/**
+ * Barre de contact flottante (MOBILE uniquement).
+ * Toujours visible en bas de l'écran : « Appeler » + « WhatsApp ».
+ * Masquée sur tablette/bureau (md:hidden).
+ */
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<div
+  class="fixed inset-x-0 bottom-0 z-50 grid grid-cols-2 border-t border-marine-100 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.08)] md:hidden"
+  role="region"
+  aria-label="Contact rapide"
+>
+  <a
+    href={site.phoneLink}
+    class="flex items-center justify-center gap-2 py-3.5 font-semibold text-marine-700"
+  >
+    <Icon name="phone" class="h-5 w-5" />
+    Appeler
+  </a>
+  <a
+    href={site.whatsapp}
+    target="_blank"
+    rel="noopener"
+    class="flex items-center justify-center gap-2 bg-green-700 py-3.5 font-semibold text-white"
+  >
+    <Icon name="whatsapp" class="h-5 w-5" />
+    WhatsApp
+  </a>
+</div>

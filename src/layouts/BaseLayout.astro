@@ -1,0 +1,96 @@
+---
+/**
+ * BaseLayout — gabarit commun à toutes les pages.
+ * Gère le <head> (SEO, Open Graph), charge la police Inter et les styles,
+ * et assemble En-tête + contenu + Pied de page + Barre de contact flottante.
+ *
+ * Chaque page passe son propre `title` et sa `description` :
+ *   <BaseLayout title="..." description="...">  ... contenu ...  </BaseLayout>
+ */
+import { site } from '../data/site';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingContact from '../components/FloatingContact.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+
+// Police Inter en self-hosted (pas de Google Fonts bloquant).
+// On ne charge que le sous-ensemble "latin" : suffisant pour le français et
+// bien plus léger (on évite les caractères cyrillique, grec, vietnamien…).
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-700.css';
+
+import '../styles/global.css';
+
+interface Props {
+  /** Titre court : affiché sous la forme "Titre | AM Express Transport". */
+  title?: string;
+  /** Titre complet imposé tel quel (prioritaire sur `title`) — utile quand le
+   *  contenu rédactionnel fournit un meta title exact à reproduire. */
+  fullTitle?: string;
+  description?: string;
+  /** Image de partage réseaux sociaux (chemin depuis /public). */
+  ogImage?: string;
+}
+
+const {
+  title,
+  fullTitle,
+  description = site.description,
+  ogImage = '/og-image.jpg',
+} = Astro.props;
+
+// Title de l'onglet : titre complet imposé, sinon "Titre | AM Express Transport".
+const pageTitle =
+  fullTitle ?? (title ? `${title} | ${site.name}` : `${site.name} — ${site.slogan}`);
+
+// URL absolue de la page courante (pour le canonical et l'Open Graph).
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO de base -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp…) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <meta name="theme-color" content="#0B2A4A" />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <Header />
+
+    <!-- pb-20 sur mobile : laisse la place à la barre de contact flottante -->
+    <main id="contenu" class="flex-1 pb-20 md:pb-0">
+      <slot />
+    </main>
+
+    <Footer />
+    <FloatingContact />
+    <CookieBanner />
+  </body>
+</html>

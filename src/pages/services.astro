@@ -1,0 +1,40 @@
+---
+/**
+ * PAGE SERVICES (/services) — intro + 4 services + note « Trajets retour » + CTA.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { services } from '../data/site';
+---
+
+<BaseLayout
+  fullTitle="Nos services de transport léger — Antibes & Côte d'Azur | AM Express"
+  description="Transport B2B, livraison e-commerce, déménagement, objets volumineux. Découvrez nos prestations de transport léger sur la Côte d'Azur. Devis gratuit."
+>
+  <PageHeader
+    title="Nos services de transport sur la Côte d'Azur"
+    subtitle="AM Express Transport accompagne les professionnels comme les particuliers pour tous leurs besoins de transport léger de marchandises. Voici nos prestations."
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'Services' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20" aria-label="Liste des services">
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {services.map((service) => <ServiceCard service={service} />)}
+    </div>
+
+    <!-- Avantage : trajets retour à tarif optimisé -->
+    <p class="mt-8 flex flex-wrap items-center justify-center gap-2 text-center text-sm text-marine-500">
+      <span class="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-orange-700">
+        Avantage
+      </span>
+      <span>
+        <span class="font-semibold text-marine-700">Trajets retour</span> :
+        profitez d'un tarif réduit sur nos trajets retour à vide. <em>(Sur devis.)</em>
+      </span>
+    </p>
+  </section>
+
+  <CtaBand />
+</BaseLayout>

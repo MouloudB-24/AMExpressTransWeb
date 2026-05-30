@@ -1,0 +1,67 @@
+---
+/**
+ * PAGE DEVIS (/devis) — formulaire de demande de devis envoyé par e-mail.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import Icon from '../components/Icon.astro';
+import { site, reasons } from '../data/site';
+---
+
+<BaseLayout
+  fullTitle="Demande de devis gratuit — Transport Côte d'Azur | AM Express Transport"
+  description="Obtenez votre devis de transport gratuit en moins d'une minute. Réponse sous 24 h. AM Express Transport, Antibes & Côte d'Azur."
+>
+  <PageHeader
+    title="Demandez votre devis gratuit"
+    subtitle="Remplissez ce court formulaire, nous revenons vers vous sous 24 h. C'est gratuit et sans engagement."
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'Devis' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="grid gap-10 lg:grid-cols-[1.5fr_1fr]">
+      <!-- Formulaire -->
+      <div>
+        <QuoteForm />
+      </div>
+
+      <!-- Colonne d'aide / réassurance + contact direct -->
+      <aside class="space-y-6">
+        <div class="rounded-2xl bg-marine-50 p-6">
+          <h2 class="text-lg font-semibold text-marine-700">Pourquoi nous confier votre transport ?</h2>
+          <ul class="mt-4 space-y-3">
+            {
+              reasons.map((reason) => (
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-orange-500 text-white">
+                    <Icon name={reason.icon} class="h-4 w-4" />
+                  </span>
+                  <span class="text-sm text-marine-600">
+                    <span class="font-semibold text-marine-700">{reason.title}.</span>{' '}
+                    {reason.description}
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-marine-100 p-6">
+          <h2 class="text-lg font-semibold text-marine-700">Vous préférez nous appeler ?</h2>
+          <p class="mt-2 text-sm text-marine-600">Du lundi au samedi, réponse rapide.</p>
+          <div class="mt-4 flex flex-col gap-3">
+            <a href={site.phoneLink} class="btn-primary">
+              <Icon name="phone" class="h-5 w-5" />
+              {site.phoneDisplay}
+            </a>
+            <a href={site.whatsapp} target="_blank" rel="noopener" class="btn-outline">
+              <Icon name="whatsapp" class="h-5 w-5" />
+              Écrire sur WhatsApp
+            </a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>

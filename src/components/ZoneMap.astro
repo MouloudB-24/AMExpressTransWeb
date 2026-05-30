@@ -1,0 +1,116 @@
+---
+/**
+ * Carte de la zone d'intervention (OpenStreetMap via Leaflet) — page /zone.
+ *
+ * Choix : Leaflet + tuiles OpenStreetMap → léger, gratuit, SANS clé API payante
+ * (contrairement à Google Maps qui nécessite une clé facturable).
+ *
+ * Performance : la carte est chargée en LAZY. Le code Leaflet (JS + CSS) et les
+ * tuiles ne sont téléchargés que lorsque la carte approche de l'écran
+ * (IntersectionObserver). Tant qu'on ne scrolle pas jusqu'à elle, zéro impact —
+ * d'où un score Lighthouse préservé.
+ *
+ * Le conteneur a un ratio fixe pour éviter tout décalage de mise en page (CLS).
+ */
+---
+
+<div
+  id="zone-map"
+  class="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-marine-100 bg-marine-50"
+  role="img"
+  aria-label="Carte de la zone d'intervention : Antibes et un rayon d'environ 50 km sur la Côte d'Azur"
+>
+  <!-- État avant chargement (remplacé par la carte au scroll) -->
+  <div data-map-placeholder class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-marine-400">
+    <svg class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11Z" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="12" cy="10" r="2.5" />
+    </svg>
+    <span class="text-sm font-medium">Chargement de la carte…</span>
+  </div>
+</div>
+
+<script>
+  // URL du CSS Leaflet (l'asset est généré au build, mais n'est PAS chargé tant
+  // qu'on n'ajoute pas le <link> ci-dessous → CSS lui aussi en lazy).
+  import leafletCssUrl from 'leaflet/dist/leaflet.css?url';
+
+  // Coordonnées d'Antibes et rayon de la zone (~50 km)
+  const ANTIBES: [number, number] = [43.5808, 7.1239];
+  const RADIUS_M = 50000;
+
+  const container = document.getElementById('zone-map');
+  if (container) {
+    let loaded = false;
+
+    const initMap = async () => {
+      if (loaded) return;
+      loaded = true;
+
+      // Injecte le CSS Leaflet à la demande (uniquement maintenant).
+      if (!document.querySelector('link[data-leaflet]')) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = leafletCssUrl;
+        link.setAttribute('data-leaflet', '');
+        document.head.appendChild(link);
+      }
+
+      // Chargement différé du code Leaflet (JS) — uniquement maintenant.
+      const L = (await import('leaflet')).default;
+
+      const placeholder = container.querySelector('[data-map-placeholder]');
+      placeholder?.remove();
+
+      const map = L.map(container, {
+        center: ANTIBES,
+        zoom: 9,
+        scrollWheelZoom: false, // évite de « piéger » le scroll sur mobile
+        attributionControl: true,
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map);
+
+      // Cercle de la zone (~50 km) + point central
+      L.circle(ANTIBES, {
+        radius: RADIUS_M,
+        color: '#F97316',
+        weight: 2,
+        fillColor: '#F97316',
+        fillOpacity: 0.1,
+      }).addTo(map);
+
+      L.circleMarker(ANTIBES, {
+        radius: 8,
+        color: '#0B2A4A',
+        weight: 2,
+        fillColor: '#F97316',
+        fillOpacity: 1,
+      })
+        .addTo(map)
+        .bindPopup('<strong>Antibes</strong><br>Notre point de départ');
+
+      // Recalcule la taille une fois le conteneur visible
+      setTimeout(() => map.invalidateSize(), 100);
+    };
+
+    // Charge la carte quand elle approche de l'écran (lazy)
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            io.disconnect();
+            initMap();
+          }
+        },
+        { rootMargin: '200px' },
+      );
+      io.observe(container);
+    } else {
+      initMap(); // navigateurs anciens : on charge directement
+    }
+  }
+</script>

@@ -1,0 +1,89 @@
+---
+/**
+ * Champ de formulaire accessible : <label> associé + input/select/textarea +
+ * emplacement de message d'erreur (rempli par le script web3form.ts).
+ */
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'date' | 'textarea' | 'select';
+  required?: boolean;
+  placeholder?: string;
+  autocomplete?: string;
+  options?: string[];
+  rows?: number;
+  /** Validation par expression régulière (ex. "\\d{5}" pour un code postal). */
+  pattern?: string;
+  /** Message affiché si le format (pattern) n'est pas respecté. */
+  patternMsg?: string;
+  /** Clavier mobile adapté (ex. "numeric"). */
+  inputmode?: string;
+  maxlength?: number;
+}
+const {
+  id,
+  name,
+  label,
+  type = 'text',
+  required = false,
+  placeholder,
+  autocomplete,
+  options = [],
+  rows = 4,
+  pattern,
+  patternMsg,
+  inputmode,
+  maxlength,
+} = Astro.props;
+---
+
+<div>
+  <label for={id} class="field-label">
+    {label}{required && <span class="text-red-600" aria-hidden="true"> *</span>}
+  </label>
+
+  {
+    type === 'textarea' ? (
+      <textarea
+        id={id}
+        name={name}
+        rows={rows}
+        required={required}
+        aria-required={required ? 'true' : undefined}
+        placeholder={placeholder}
+        class="field-input"
+      />
+    ) : type === 'select' ? (
+      <select
+        id={id}
+        name={name}
+        required={required}
+        aria-required={required ? 'true' : undefined}
+        class="field-input"
+      >
+        <option value="">— Sélectionnez —</option>
+        {options.map((opt) => (
+          <option value={opt}>{opt}</option>
+        ))}
+      </select>
+    ) : (
+      <input
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        aria-required={required ? 'true' : undefined}
+        placeholder={placeholder}
+        autocomplete={autocomplete}
+        pattern={pattern}
+        inputmode={inputmode}
+        maxlength={maxlength}
+        data-pattern-msg={patternMsg}
+        class="field-input"
+      />
+    )
+  }
+
+  <p id={`${id}-error`} class="field-error" role="alert" hidden></p>
+</div>

@@ -1,0 +1,56 @@
+---
+/**
+ * PAGE ZONE D'INTERVENTION (/zone) — texte + liste des villes + emplacement carte.
+ * L'intégration Google Maps réelle est prévue pour le Sprint 3.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import ZoneMap from '../components/ZoneMap.astro';
+import Icon from '../components/Icon.astro';
+import { villes } from '../data/site';
+---
+
+<BaseLayout
+  fullTitle="Zone d'intervention — Transport Antibes, Nice, Cannes | AM Express"
+  description="AM Express Transport intervient à Antibes, Nice, Cannes, Mougins, Grasse et sur toute la Côte d'Azur (~50 km). Vérifiez si votre ville est desservie."
+>
+  <PageHeader
+    title="Notre zone d'intervention sur la Côte d'Azur"
+    subtitle="Basés à Antibes, nous desservons l'ensemble des Alpes-Maritimes dans un rayon d'environ 50 km."
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: "Zone d'intervention" }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="grid items-start gap-10 lg:grid-cols-2">
+      <!-- Liste des villes -->
+      <div>
+        <h2 class="text-2xl font-bold">Villes desservies</h2>
+        <ul class="mt-6 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
+          {
+            villes.map((ville) => (
+              <li class="flex items-center gap-2 text-marine-600">
+                <Icon name="pin" class="h-4 w-4 shrink-0 text-orange-500" />
+                <span>{ville}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-6 text-sm text-marine-500">
+          Cette liste n'est pas exhaustive : si votre ville se situe dans un rayon
+          d'environ 50 km autour d'Antibes, nous pouvons très probablement intervenir.
+        </p>
+      </div>
+
+      <!-- Carte interactive de la zone (OpenStreetMap, chargée en lazy) -->
+      <ZoneMap />
+    </div>
+  </section>
+
+  <CtaBand
+    title="Votre ville n'est pas listée ?"
+    text="Contactez-nous : nous étudions chaque demande sur la Côte d'Azur."
+    ctaLabel="Nous contacter"
+    ctaHref="/contact"
+  />
+</BaseLayout>

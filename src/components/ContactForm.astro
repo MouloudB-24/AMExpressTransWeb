@@ -1,0 +1,79 @@
+---
+/**
+ * Formulaire de CONTACT court — envoi par e-mail via Web3Forms.
+ * Même mécanique que le formulaire de devis (scripts/web3form.ts).
+ */
+import { site, reassurance } from '../data/site';
+import FormField from './FormField.astro';
+import Icon from './Icon.astro';
+
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+---
+
+<div data-form-wrap>
+  <form
+    data-web3form
+    novalidate
+    class="rounded-2xl border border-marine-100 bg-white p-6 shadow-sm sm:p-8"
+    aria-label="Formulaire de contact"
+  >
+    <input type="hidden" name="access_key" value={accessKey} />
+    <input type="hidden" name="subject" value="Nouveau message (Contact) — AM Express Transport" />
+    <input type="hidden" name="from_name" value="Site AM Express Transport" />
+    <input
+      type="checkbox"
+      name="botcheck"
+      class="hidden"
+      style="display:none"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+    />
+
+    <div class="grid gap-5">
+      <FormField id="c-name" name="Nom" label="Nom" required autocomplete="name" />
+      <FormField id="c-phone" name="Téléphone" label="Téléphone" type="tel" autocomplete="tel" />
+      <FormField id="c-email" name="Email" label="E-mail" type="email" required autocomplete="email" />
+      <FormField id="c-message" name="Message" label="Votre message" type="textarea" required rows={5} />
+    </div>
+
+    <div class="mt-6">
+      <button type="submit" class="btn-primary w-full sm:w-auto">
+        Envoyer le message
+        <Icon name="arrow" class="h-5 w-5" />
+      </button>
+      <p class="mt-3 text-sm text-marine-500">{reassurance}</p>
+      <p class="mt-2 text-xs leading-relaxed text-marine-400">
+        Vos données servent uniquement à répondre à votre message. Voir notre
+        <a href="/confidentialite" class="text-orange-700 underline">politique de confidentialité</a>.
+      </p>
+      <p data-form-status role="status" aria-live="assertive" class="mt-3 text-sm font-medium" hidden></p>
+    </div>
+  </form>
+
+  <div
+    data-form-success
+    tabindex="-1"
+    role="status"
+    class="rounded-2xl border border-green-200 bg-green-50 p-8 text-center"
+    hidden
+  >
+    <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-green-600 text-white">
+      <Icon name="check" class="h-7 w-7" />
+    </span>
+    <h2 class="mt-4 text-2xl font-bold text-marine-700">Message envoyé, merci !</h2>
+    <p class="mt-2 text-marine-600">
+      Nous vous répondons sous 24 h. Pour une demande urgente, appelez-nous.
+    </p>
+    <div class="mt-5">
+      <a href={site.phoneLink} class="btn-outline">
+        <Icon name="phone" class="h-5 w-5" />
+        {site.phoneDisplay}
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../scripts/web3form.ts';
+</script>

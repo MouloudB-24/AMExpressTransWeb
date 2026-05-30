@@ -1,0 +1,39 @@
+---
+/**
+ * Bloc « Zone d'intervention ».
+ * Placeholder de carte (à remplacer par une vraie carte Google Maps centrée
+ * sur Antibes avec un rayon de 50 km, dans un prochain sprint) + lien /zone.
+ */
+import Icon from './Icon.astro';
+---
+
+<section class="container-site py-16 sm:py-20" aria-labelledby="titre-zone">
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+    <!-- Texte -->
+    <div>
+      <h2 id="titre-zone" class="text-3xl font-bold sm:text-4xl">Zone d'intervention</h2>
+      <p class="mt-4 text-lg leading-relaxed text-marine-500">
+        Basés à Antibes, nous intervenons sur toute la Côte d'Azur : Nice,
+        Cannes, Mougins, Vallauris, Cagnes-sur-Mer, Grasse et alentours
+        (~50 km).
+      </p>
+      <a href="/zone" class="btn-outline mt-6">
+        Voir la zone desservie
+        <Icon name="arrow" class="h-5 w-5" />
+      </a>
+    </div>
+
+    <!-- Placeholder carte (sera remplacé par Google Maps).
+         On garde un ratio fixe pour éviter tout décalage de mise en page. -->
+    <div
+      class="relative flex aspect-[4/3] items-center justify-center rounded-xl border border-marine-100 bg-marine-50"
+      role="img"
+      aria-label="Carte de la zone d'intervention autour d'Antibes (à venir)"
+    >
+      <div class="flex flex-col items-center gap-2 text-marine-400">
+        <Icon name="pin" class="h-10 w-10" />
+        <span class="text-sm font-medium">Antibes & Côte d'Azur — carte à venir</span>
+      </div>
+    </div>
+  </div>
+</section>

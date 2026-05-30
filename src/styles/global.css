@@ -1,0 +1,75 @@
+/* ==========================================================================
+   STYLES GLOBAUX — chargés sur toutes les pages via BaseLayout.astro
+   ========================================================================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white font-sans text-marine-900 antialiased;
+  }
+
+  /* Focus clavier visible partout (accessibilité) */
+  :focus-visible {
+    @apply outline-none ring-2 ring-orange-500 ring-offset-2;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-bold text-marine-700;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Conteneur centré standard pour le contenu des sections */
+  .container-site {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Bouton d'action principal (orange).
+     Texte bleu marine foncé sur fond orange : conserve l'orange vif de la
+     marque (#F97316) tout en respectant le contraste WCAG AA (texte blanc sur
+     cet orange serait insuffisant). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-orange-500
+           px-6 py-3 text-base font-bold text-marine-900 shadow-sm transition
+           hover:bg-orange-400 active:bg-orange-600;
+  }
+
+  /* Bouton secondaire (contour clair, sur fond sombre) */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2
+           border-white/70 px-6 py-3 text-base font-semibold text-white transition
+           hover:border-white hover:bg-white/10;
+  }
+
+  /* Bouton secondaire foncé (sur fond clair) */
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border-2
+           border-marine-700 px-6 py-3 text-base font-semibold text-marine-700
+           transition hover:bg-marine-700 hover:text-white;
+  }
+
+  /* --- Champs de formulaire ------------------------------------------------ */
+  .field-label {
+    @apply mb-1 block text-sm font-medium text-marine-700;
+  }
+  .field-input {
+    @apply block w-full rounded-lg border border-marine-200 bg-white px-3.5 py-2.5
+           text-marine-900 shadow-sm transition placeholder:text-marine-300
+           focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40;
+  }
+  /* Champ en erreur (validation) */
+  .field-input[aria-invalid='true'] {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/40;
+  }
+  .field-error {
+    @apply mt-1 text-sm font-medium text-red-600;
+  }
+}

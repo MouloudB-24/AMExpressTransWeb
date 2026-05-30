@@ -1,0 +1,139 @@
+---
+/**
+ * Formulaire de DEVIS — envoi par e-mail via Web3Forms (voir scripts/web3form.ts).
+ * La clé d'accès vient de la variable d'environnement PUBLIC_WEB3FORMS_KEY
+ * (jamais en dur dans le code — voir .env.example et le README).
+ */
+import { site, prestationTypes, reassurance } from '../data/site';
+import FormField from './FormField.astro';
+import Icon from './Icon.astro';
+
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+// Notification WhatsApp du gérant (CallMeBot) — config depuis le .env, jamais en dur.
+const cmbPhone = import.meta.env.PUBLIC_CALLMEBOT_PHONE ?? '';
+const cmbKey = import.meta.env.PUBLIC_CALLMEBOT_APIKEY ?? '';
+---
+
+<div data-form-wrap>
+  <form
+    data-web3form
+    data-whatsapp
+    data-cmb-phone={cmbPhone}
+    data-cmb-key={cmbKey}
+    novalidate
+    class="rounded-2xl border border-marine-100 bg-white p-6 shadow-sm sm:p-8"
+    aria-label="Formulaire de demande de devis"
+  >
+    <!-- Champs techniques Web3Forms (non visibles) -->
+    <input type="hidden" name="access_key" value={accessKey} />
+    <input type="hidden" name="subject" value="Nouvelle demande de devis — AM Express Transport" />
+    <input type="hidden" name="from_name" value="Site AM Express Transport" />
+    <!-- Honeypot anti-spam : un robot remplit ce champ, pas un humain (champ masqué). -->
+    <input
+      type="checkbox"
+      name="botcheck"
+      class="hidden"
+      style="display:none"
+      tabindex="-1"
+      autocomplete="off"
+      aria-hidden="true"
+    />
+
+    <div class="grid gap-5 sm:grid-cols-2">
+      <FormField id="q-name" name="Nom et prénom" label="Nom et prénom" required autocomplete="name" />
+      <FormField id="q-phone" name="Téléphone" label="Téléphone" type="tel" required autocomplete="tel" />
+      <FormField id="q-email" name="Email" label="E-mail" type="email" required autocomplete="email" />
+      <FormField
+        id="q-prestation"
+        name="Type de prestation"
+        label="Type de prestation"
+        type="select"
+        options={prestationTypes}
+      />
+    </div>
+
+    <!-- Adresses complètes (départ + arrivée), regroupées visuellement -->
+    <fieldset class="mt-5 rounded-xl border border-marine-100 p-4">
+      <legend class="px-2 text-sm font-bold uppercase tracking-wide text-orange-700">Départ</legend>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="col-span-6">
+          <FormField id="q-dep-rue" name="Adresse de départ" label="N° et rue" required placeholder="Ex. 12 avenue de la Gare" autocomplete="address-line1" />
+        </div>
+        <div class="col-span-2">
+          <FormField id="q-dep-cp" name="Code postal de départ" label="Code postal" required inputmode="numeric" pattern="\\d{5}" patternMsg="Code postal à 5 chiffres." maxlength={5} placeholder="06600" autocomplete="postal-code" />
+        </div>
+        <div class="col-span-4">
+          <FormField id="q-dep-ville" name="Ville de départ" label="Ville" required placeholder="Antibes" autocomplete="address-level2" />
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="mt-4 rounded-xl border border-marine-100 p-4">
+      <legend class="px-2 text-sm font-bold uppercase tracking-wide text-orange-700">Arrivée</legend>
+      <div class="grid grid-cols-6 gap-4">
+        <div class="col-span-6">
+          <FormField id="q-arr-rue" name="Adresse d'arrivée" label="N° et rue" required placeholder="Ex. 5 rue Masséna" />
+        </div>
+        <div class="col-span-2">
+          <FormField id="q-arr-cp" name="Code postal d'arrivée" label="Code postal" required inputmode="numeric" pattern="\\d{5}" patternMsg="Code postal à 5 chiffres." maxlength={5} placeholder="06000" />
+        </div>
+        <div class="col-span-4">
+          <FormField id="q-arr-ville" name="Ville d'arrivée" label="Ville" required placeholder="Nice" />
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="mt-5 grid gap-5">
+      <FormField id="q-date" name="Date souhaitée" label="Date souhaitée" type="date" />
+      <FormField
+        id="q-message"
+        name="Description"
+        label="Décrivez votre besoin"
+        type="textarea"
+        placeholder="Détails de la marchandise, volume, contraintes…"
+      />
+    </div>
+
+    <div class="mt-6">
+      <button type="submit" class="btn-primary w-full sm:w-auto">
+        Envoyer ma demande
+        <Icon name="arrow" class="h-5 w-5" />
+      </button>
+      <p class="mt-3 text-sm text-marine-500">{reassurance}</p>
+      <!-- Mention RGPD sous le formulaire -->
+      <p class="mt-2 text-xs leading-relaxed text-marine-400">
+        Vos données (nom, contact, adresses) servent uniquement à établir votre devis et ne sont jamais
+        revendues. Voir notre <a href="/confidentialite" class="text-orange-700 underline">politique de confidentialité</a>.
+      </p>
+      <p data-form-status role="status" aria-live="assertive" class="mt-3 text-sm font-medium" hidden></p>
+    </div>
+  </form>
+
+  <!-- Message de confirmation affiché après un envoi réussi -->
+  <div
+    data-form-success
+    tabindex="-1"
+    role="status"
+    class="rounded-2xl border border-green-200 bg-green-50 p-8 text-center"
+    hidden
+  >
+    <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-green-600 text-white">
+      <Icon name="check" class="h-7 w-7" />
+    </span>
+    <h2 class="mt-4 text-2xl font-bold text-marine-700">Merci, votre demande est envoyée !</h2>
+    <p class="mt-2 text-marine-600">
+      Nous revenons vers vous sous 24 h. Pour un besoin urgent, appelez-nous directement.
+    </p>
+    <div class="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a href={site.phoneLink} class="btn-outline">
+        <Icon name="phone" class="h-5 w-5" />
+        {site.phoneDisplay}
+      </a>
+      <a href="/" class="text-sm font-semibold text-orange-700 hover:underline">Retour à l'accueil</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../scripts/web3form.ts';
+</script>

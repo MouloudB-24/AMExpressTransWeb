@@ -1,0 +1,33 @@
+---
+/**
+ * Aperçu des 4 services (page d'accueil) — cartes cliquables vers les pages SEO.
+ * Les intitulés et descriptions se modifient dans src/data/site.ts (tableau "services").
+ */
+import { services } from '../data/site';
+import ServiceCard from './ServiceCard.astro';
+---
+
+<section class="container-site py-16 sm:py-20" aria-labelledby="titre-services">
+  <div class="mx-auto max-w-2xl text-center">
+    <h2 id="titre-services" class="text-3xl font-bold sm:text-4xl">Nos services</h2>
+    <p class="mt-4 text-lg text-marine-500">
+      Une solution de transport léger adaptée à chacun de vos besoins,
+      professionnels comme particuliers.
+    </p>
+  </div>
+
+  <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {services.map((service) => <ServiceCard service={service} />)}
+  </div>
+
+  <!-- Bonus mis en avant dans le contenu : trajets retour à tarif optimisé -->
+  <p class="mt-8 flex flex-wrap items-center justify-center gap-2 text-center text-sm text-marine-500">
+    <span class="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-orange-700">
+      Avantage
+    </span>
+    <span>
+      <span class="font-semibold text-marine-700">Trajets retour à tarif optimisé</span> :
+      profitez d'un tarif réduit sur nos trajets retour à vide. <em>(Sur devis.)</em>
+    </span>
+  </p>
+</section>

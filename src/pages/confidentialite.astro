@@ -1,0 +1,93 @@
+---
+/**
+ * POLITIQUE DE CONFIDENTIALITÉ (RGPD) — document PROVISOIRE (à finaliser Sprint 3).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Politique de confidentialité"
+  description="Politique de confidentialité et gestion des données personnelles du site AM Express Transport (RGPD)."
+>
+  <PageHeader
+    title="Politique de confidentialité"
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'Confidentialité' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl space-y-6 text-marine-600">
+      <p class="rounded-lg border border-orange-200 bg-orange-50 p-4 text-sm text-marine-700">
+        ⚠️ <strong>Document à finaliser</strong> avec les coordonnées définitives de
+        l'entreprise (après immatriculation).
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Responsable du traitement</h2>
+      <p>
+        Les données collectées sur ce site sont traitées par {site.name}, gérée par
+        Mouloud Bellil. Pour toute question relative à vos données :
+        <a class="text-orange-700 hover:underline" href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Données collectées</h2>
+      <p>
+        Via le <strong>formulaire de devis</strong> : nom et prénom, téléphone,
+        e-mail, type de prestation, adresses de départ et d'arrivée (rue, code
+        postal, ville), date souhaitée et description de votre besoin.
+      </p>
+      <p>
+        Via le <strong>formulaire de contact</strong> : nom, téléphone, e-mail et
+        votre message.
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Finalités</h2>
+      <p>
+        Ces données servent <strong>uniquement</strong> à traiter votre demande,
+        établir un devis et vous recontacter. Elles ne sont ni revendues, ni cédées
+        à des tiers à des fins commerciales. La base légale est votre consentement
+        (envoi volontaire du formulaire) et notre intérêt légitime à répondre.
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Sous-traitants (destinataires)</h2>
+      <p>
+        Pour acheminer vos demandes, nous utilisons des services tiers qui agissent
+        comme sous-traitants techniques :
+      </p>
+      <ul class="list-disc space-y-1 pl-6">
+        <li>
+          <strong>Web3Forms</strong> : transmission du contenu du formulaire vers
+          notre boîte e-mail.
+        </li>
+        <li>
+          <strong>CallMeBot</strong> : envoi d'une notification WhatsApp au gérant
+          pour les nouvelles demandes de devis (nom, téléphone, prestation, trajet).
+        </li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-marine-700">Durée de conservation</h2>
+      <p>
+        Vos données sont conservées le temps nécessaire au traitement de votre
+        demande, puis archivées au maximum 3 ans après notre dernier échange, avant
+        suppression.
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Cookies et stockage local</h2>
+      <p>
+        Ce site <strong>ne dépose aucun cookie de suivi publicitaire</strong> et
+        n'utilise pas d'outil de mesure d'audience à ce jour. Seul un petit
+        indicateur est enregistré dans votre navigateur (stockage local) pour
+        mémoriser que vous avez vu le bandeau d'information — il ne sert à aucun
+        traçage.
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Vos droits</h2>
+      <p>
+        Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et
+        de suppression de vos données, ainsi que d'un droit d'opposition. Pour
+        l'exercer, écrivez-nous à
+        <a class="text-orange-700 hover:underline" href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+/**
+ * Fil d'Ariane (ex. Accueil > Services > Transport pro).
+ * Affiché sur fond sombre (dans PageHeader) → couleurs claires.
+ * Génère aussi les données structurées BreadcrumbList (bon pour le SEO).
+ */
+interface Crumb {
+  label: string;
+  href?: string; // dernier élément : sans href (page courante)
+}
+interface Props {
+  items: Crumb[];
+}
+const { items } = Astro.props;
+
+// Données structurées schema.org (URL absolues)
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: new URL(item.href, Astro.site).href } : {}),
+  })),
+};
+---
+
+<nav aria-label="Fil d'Ariane" class="mb-4 text-sm">
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-marine-200">
+    {
+      items.map((item, i) => (
+        <li class="flex items-center gap-2">
+          {item.href ? (
+            <a href={item.href} class="transition hover:text-orange-300">
+              {item.label}
+            </a>
+          ) : (
+            <span aria-current="page" class="font-medium text-white">
+              {item.label}
+            </span>
+          )}
+          {i < items.length - 1 && <span aria-hidden="true" class="text-marine-400">›</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

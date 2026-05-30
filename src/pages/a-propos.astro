@@ -1,0 +1,71 @@
+---
+/**
+ * PAGE À PROPOS (/a-propos) — texte valorisant + valeurs + placeholders (parcours/photo).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { valeurs } from '../data/site';
+---
+
+<BaseLayout
+  fullTitle="À propos — AM Express Transport, transporteur à Antibes"
+  description="Découvrez AM Express Transport, service de transport léger indépendant basé à Antibes. Proximité, réactivité et soin de vos marchandises."
+>
+  <PageHeader
+    title="AM Express Transport, votre transporteur de proximité"
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'À propos' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl space-y-5 text-lg leading-relaxed text-marine-600">
+      <p>
+        AM Express Transport est un service de transport léger de marchandises
+        indépendant, basé à Antibes et au service de toute la Côte d'Azur. Notre
+        approche est simple : un interlocuteur unique, disponible et réactif, qui
+        traite chaque livraison avec le même soin, qu'il s'agisse d'une palette
+        pour un commerçant ou d'un meuble fragile pour un particulier.
+      </p>
+      <p>
+        Nous croyons qu'un bon transport repose sur trois choses : la
+        <strong class="text-marine-700">ponctualité</strong>, le
+        <strong class="text-marine-700">soin</strong> apporté à vos biens et une
+        <strong class="text-marine-700">communication claire</strong> du devis à
+        la livraison. C'est ce que nous nous engageons à vous offrir sur chaque
+        mission.
+      </p>
+    </div>
+
+    <!-- Nos valeurs -->
+    <div class="mx-auto mt-14 max-w-4xl">
+      <h2 class="text-center text-2xl font-bold">Nos valeurs</h2>
+      <div class="mt-8 grid gap-8 sm:grid-cols-3">
+        {
+          valeurs.map((valeur) => (
+            <div class="flex flex-col items-center text-center">
+              <span class="grid h-12 w-12 place-items-center rounded-full bg-orange-500 text-white">
+                <Icon name={valeur.icon} class="h-6 w-6" />
+              </span>
+              <h3 class="mt-4 text-lg font-semibold">{valeur.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-marine-500">{valeur.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Placeholder à enrichir plus tard (parcours du gérant, capacité, photo) -->
+    <!--
+      À COMPLÉTER (fourni ultérieurement par le client) :
+      - parcours du gérant (Mouloud Bellil)
+      - attestation de capacité professionnelle (DREAL PACA)
+      - photo du véhicule / du gérant
+    -->
+  </section>
+
+  <CtaBand
+    title="Confiez-nous votre prochain transport"
+    text="Un devis gratuit, une réponse sous 24 h, sans engagement."
+  />
+</BaseLayout>

@@ -1,0 +1,51 @@
+---
+/**
+ * MENTIONS LÉGALES — document PROVISOIRE.
+ * À finaliser au Sprint 3, après immatriculation (SIREN) et obtention de
+ * l'attestation de capacité (DREAL PACA). Les [À COMPLÉTER] restent en placeholder.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Mentions légales"
+  description="Mentions légales du site AM Express Transport, transport léger de marchandises à Antibes et sur la Côte d'Azur."
+>
+  <PageHeader
+    title="Mentions légales"
+    breadcrumb={[{ label: 'Accueil', href: '/' }, { label: 'Mentions légales' }]}
+  />
+
+  <section class="container-site py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl space-y-6 text-marine-600">
+      <p class="rounded-lg border border-orange-200 bg-orange-50 p-4 text-sm text-marine-700">
+        ⚠️ <strong>Document provisoire.</strong> À finaliser après immatriculation
+        (SIREN) et obtention de l'attestation de capacité professionnelle.
+      </p>
+
+      <h2 class="text-xl font-bold text-marine-700">Éditeur du site</h2>
+      <ul class="space-y-1">
+        <li><strong>Dénomination :</strong> {site.name} (EURL)</li>
+        <li><strong>Activité :</strong> {site.activite}</li>
+        <li><strong>Gérant :</strong> Mouloud Bellil</li>
+        <li><strong>SIREN :</strong> [À COMPLÉTER]</li>
+        <li><strong>Capital social :</strong> [À COMPLÉTER]</li>
+        <li><strong>Siège social :</strong> [ADRESSE DU SIÈGE — à compléter]</li>
+        <li><strong>Attestation de capacité professionnelle de transport léger :</strong> délivrée par la DREAL PACA — [N° à compléter]</li>
+        <li><strong>Contact :</strong> <a class="text-orange-700 hover:underline" href={`mailto:${site.email}`}>{site.email}</a> · {site.phoneDisplay}</li>
+      </ul>
+
+      <h2 class="text-xl font-bold text-marine-700">Hébergement</h2>
+      <p>Site hébergé chez [HÉBERGEUR — Vercel ou Netlify, à confirmer à la mise en ligne].</p>
+
+      <h2 class="text-xl font-bold text-marine-700">Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus de ce site (textes, images, logo) est la propriété
+        de {site.name}, sauf mention contraire. Toute reproduction sans autorisation
+        est interdite.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

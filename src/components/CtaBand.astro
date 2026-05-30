@@ -1,0 +1,39 @@
+---
+/**
+ * Bandeau d'appel à l'action réutilisable (bas de page interne).
+ * Bouton principal (par défaut vers /devis) + bouton « Appeler ».
+ */
+import { site, reassurance } from '../data/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  text?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+const {
+  title = 'Un transport à organiser ?',
+  text = 'Demandez votre devis gratuit : réponse sous 24 h, sans engagement.',
+  ctaLabel = 'Demander un devis gratuit',
+  ctaHref = '/devis',
+} = Astro.props;
+---
+
+<section class="bg-marine-700" aria-label="Appel à l'action">
+  <div class="container-site py-14 text-center sm:py-16">
+    <h2 class="!text-white text-2xl font-bold sm:text-3xl">{title}</h2>
+    <p class="mx-auto mt-3 max-w-2xl text-lg text-marine-100">{text}</p>
+    <div class="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a href={ctaHref} class="btn-primary">
+        {ctaLabel}
+        <Icon name="arrow" class="h-5 w-5" />
+      </a>
+      <a href={site.phoneLink} class="btn-secondary">
+        <Icon name="phone" class="h-5 w-5" />
+        {site.phoneDisplay}
+      </a>
+    </div>
+    <p class="mt-4 text-sm text-marine-200">{reassurance}</p>
+  </div>
+</section>

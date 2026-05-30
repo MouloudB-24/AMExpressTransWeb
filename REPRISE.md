@@ -16,19 +16,22 @@
 
 ## ▶️ Relancer le site en local (après redémarrage)
 
-Le serveur de prévisualisation s'arrête au reboot — pour le relancer :
+Le serveur s'arrête au reboot — pour le relancer, le plus simple est le script :
 
 ```bash
 cd ~/Documents/projects/Big_projects/AM-Express-Transport
 
-# Mode développement (rechargement auto, lit .env à chaque démarrage) :
-npm run dev
-#   → http://localhost:4321
-
-# OU mode "build de production" (à refaire après TOUTE modif de .env) :
-npm run build && npm run preview
+./start.sh start      # démarre (mode dev, rechargement auto, lit .env)
+./start.sh stop       # arrête
+./start.sh restart    # redémarre
+./start.sh status     # état du serveur
 #   → http://localhost:4321   (et http://<ip-locale>:4321 pour le mobile)
+
+# Variante "build de production" (utile pour tester le rendu final) :
+./start.sh start preview
 ```
+
+Équivalents manuels si besoin : `npm run dev`, ou `npm run build && npm run preview`.
 
 > ⚠️ **Rappel clé** : les variables `.env` sont lues **au build**. Après avoir modifié
 > `.env`, relancer `npm run build` (en mode `dev`, il suffit de redémarrer `npm run dev`).

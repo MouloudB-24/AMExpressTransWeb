@@ -12,3 +12,8 @@ npm-debug.log*
 # macOS / editors
 .DS_Store
 .vscode/
+
+# start.sh (runtime local)
+.server.pid
+.server.log
+.server.mode
